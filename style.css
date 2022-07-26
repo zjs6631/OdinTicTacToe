@@ -1,0 +1,38 @@
+html,
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(214, 224, 224);
+    height:100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+}
+
+#board{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-color: rgb(251, 239, 221);
+    width: 200px;
+    height: 200px;
+    
+    
+}
+
+#board .piece{
+    display: grid;
+    align-items: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    font-size:xx-large;
+    text-align: center;
+}
+
+#winsCounter{
+    text-align: center;
+}
