@@ -1,5 +1,7 @@
 console.log("JS connected");
 
+
+//player factory to create player objects
 const Player = (name, mark) => {
     Player.name = name;
     Player.mark = mark;
@@ -7,6 +9,8 @@ const Player = (name, mark) => {
     return {name, mark};
 };
 
+
+//gameboard module to hold current board and check for wins and ties 
 const Gameboard = (() =>{
     let currBoard = ["","","","","","","","",""];
     const one = document.getElementById("one");
@@ -18,8 +22,11 @@ const Gameboard = (() =>{
     const seven = document.getElementById("seven");
     const eight = document.getElementById("eight");
     const nine = document.getElementById("nine");
-
-
+    //need main function to get values at each square and place them in array
+    //checkWin function to check different winning combinations or ties 
+    //1 2 3   [1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]
+    //4 5 6
+    //7 8 9
 
     
     
@@ -28,6 +35,7 @@ const Gameboard = (() =>{
 
 })();
 
+//game module to manage game flow
 const Game = (() => {
     //section handled player names and creation, assigning each a marker
     let p1name = "Zachary"
@@ -50,6 +58,8 @@ const Game = (() => {
     const eight = document.getElementById("eight");
     const nine = document.getElementById("nine");
 
+    //flag used to keep track of whos turn it is
+    //open flags used to check if tile is still avaiable to play
     let flag = 0;
     let oneOpen = true;
     let twoOpen = true;
