@@ -45,7 +45,8 @@ const Gameboard = (() =>{
 
     let win = false;
     
-
+    //checkWin checks every possible combination and makes sure it's not a row of "" 
+    //returns a boolean to mark if a win was detected
     const checkWin = () => {
         if((currBoard[0] == currBoard[1] && currBoard[1] == currBoard[2] && currBoard[0] != "")|| (currBoard[3] == currBoard[4] && currBoard[4] == currBoard[5] && currBoard[3] != "")||
         (currBoard[6] == currBoard[7] && currBoard[7] == currBoard[8] && currBoard[6] != "") || (currBoard[0] == currBoard[3] && currBoard[3] == currBoard[6] && currBoard[0] != "") ||
@@ -56,6 +57,8 @@ const Gameboard = (() =>{
         return win;
     }
 
+    //resetBoard sets win to false and removes all characters from board
+    //as well as emptying out the array that represents the gameboard
     const resetBoard = (a) => {
         win = a;
         one.innerHTML = "",
@@ -71,7 +74,7 @@ const Gameboard = (() =>{
         currBoard["", "", "", "", "", "", "", "", ""];
     }
 
-
+    //I return all the functions so they can be used elsewhere
     return{
         updateBoard, checkWin, resetBoard
     }
@@ -127,7 +130,8 @@ const Game = (() => {
     
     //add an event listener for each square
     one.addEventListener("click", ()=>{
-        
+        //using flag variable allow the proper player place their mark
+        //mark the tile as taken
         if(flag == 0 && oneOpen === true){
             one.innerHTML = Player1.mark;
             flag+=1;
@@ -137,8 +141,12 @@ const Game = (() => {
             flag-=1;
             oneOpen = false;
         }
+        //update the gameboard (updates the array)
         Gameboard.updateBoard();
+        //check the array for a winning combination
         let res = Gameboard.checkWin();
+        //if win is detected then disable the board and name the last player the winner
+        //increment their win counter, mark the win as counted to prevent double counting. 
         if(res === true){
             oneOpen = false;
             twoOpen = false;
@@ -456,7 +464,8 @@ const Game = (() => {
 
     const clearBoard = document.getElementById("clearBoard");
     const clearCounter = document.getElementById("clearCounter");
-    
+    //listener to allow the clear board button to work
+    //Gameboard.resetBoard() does the actual reset. This button marks the tiles as open for another move.
     clearBoard.addEventListener("click", () =>{
         Gameboard.resetBoard(false);
         oneOpen = true;
@@ -470,7 +479,8 @@ const Game = (() => {
         nineOpen = true;
         winCounted = false;
     })
-
+    //clear counter resets the counter variables and updates the HTML
+    //also updates the winCounted variable to allow the next game to function properly.
     clearCounter.addEventListener("click", () =>{
         p1Wins = 0;
         p2Wins = 0;
