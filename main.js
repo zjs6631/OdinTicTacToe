@@ -12,7 +12,7 @@ const Player = (name, mark) => {
 
 //gameboard module to hold current board and check for wins and ties 
 const Gameboard = (() =>{
-    let currBoard = ["","","","","","","","",""];
+    let currBoard = ["1","2","3","4","5","6","7","8","9"];
     const one = document.getElementById("one");
     const two = document.getElementById("two");
     const three = document.getElementById("three");
@@ -22,12 +22,59 @@ const Gameboard = (() =>{
     const seven = document.getElementById("seven");
     const eight = document.getElementById("eight");
     const nine = document.getElementById("nine");
+
+    
     //need main function to get values at each square and place them in array
     //checkWin function to check different winning combinations or ties 
     //1 2 3   [1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]
     //4 5 6
     //7 8 9
+    const updateBoard = () => {
+        currBoard[0] = one.innerHTML;
+        currBoard[1] = two.innerHTML;
+        currBoard[2] = three.innerHTML;
+        currBoard[3] = four.innerHTML;
+        currBoard[4] = five.innerHTML;
+        currBoard[5] = six.innerHTML;
+        currBoard[6] = seven.innerHTML;
+        currBoard[7] = eight.innerHTML;
+        currBoard[8] = nine.innerHTML;
+        
+        console.log(currBoard);
+    }
 
+    let win = false;
+    
+
+    const checkWin = () => {
+        if((currBoard[0] == currBoard[1] && currBoard[1] == currBoard[2] && currBoard[0] != "")|| (currBoard[3] == currBoard[4] && currBoard[4] == currBoard[5] && currBoard[3] != "")||
+        (currBoard[6] == currBoard[7] && currBoard[7] == currBoard[8] && currBoard[6] != "") || (currBoard[0] == currBoard[3] && currBoard[3] == currBoard[6] && currBoard[0] != "") ||
+        (currBoard[1] == currBoard[4] && currBoard[4] == currBoard[7] && currBoard[1] != "") || (currBoard[2] == currBoard[5] && currBoard[5] == currBoard[8] && currBoard[2] != "") ||
+        (currBoard[0] == currBoard[4] && currBoard[4] == currBoard[8] && currBoard[0] != "") || (currBoard[2] == currBoard[4] && currBoard[4] == currBoard[6] && currBoard[2] != "")){
+            win = true;
+        }
+        return win;
+    }
+
+    const resetBoard = (a) => {
+        win = a;
+        one.innerHTML = "",
+        two.innerHTML = "",
+        three.innerHTML = "",
+        four.innerHTML = "",
+        five.innerHTML = "",
+        six.innerHTML = "",
+        seven.innerHTML = "",
+        eight.innerHTML = "",
+        nine.innerHTML = "";
+
+        currBoard["", "", "", "", "", "", "", "", ""];
+    }
+
+
+    return{
+        updateBoard, checkWin, resetBoard
+    }
     
     
     
@@ -42,10 +89,14 @@ const Game = (() => {
     let p2name = "Nancy"//prompt("enter player 2 name:")
     let p1nameDisplay = document.getElementById("p1name");
     let p2nameDisplay = document.getElementById("p2name");
+    let p1WinDisplay = document.getElementById("player1");
+    let p2WinDisplay = document.getElementById("player2");
     const Player1 = Player(p1name, "X");
     const Player2 = Player(p2name, "O");
     p1nameDisplay.innerHTML = ("Player 1: " + p1name);
     p2nameDisplay.innerHTML = ("Player 2: " + p2name);
+    p1Wins = 0;
+    p2Wins = 0;
 
     //grab each square of our board 
     const one = document.getElementById("one");
@@ -70,6 +121,8 @@ const Game = (() => {
     let sevenOpen = true;
     let eightOpen = true;
     let nineOpen = true;
+    
+    let winCounted = false;
 
     
     //add an event listener for each square
@@ -84,7 +137,31 @@ const Game = (() => {
             flag-=1;
             oneOpen = false;
         }
-        console.log(oneOpen)
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+                } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
+        }
+        
     })
 
     two.addEventListener("click", ()=>{
@@ -96,6 +173,30 @@ const Game = (() => {
             two.innerHTML = Player2.mark;
             flag-=1;
             twoOpen = false;
+        }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted == false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
         }
     })
     
@@ -109,6 +210,30 @@ const Game = (() => {
             flag-=1;
             threeOpen = false;
         }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
+        }
     })
 
     four.addEventListener("click", ()=>{
@@ -120,6 +245,32 @@ const Game = (() => {
             four.innerHTML = Player2.mark;
             flag-=1;
             fourOpen = false;
+        }
+        
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
         }
     })
 
@@ -133,6 +284,30 @@ const Game = (() => {
             flag-=1;
             fiveOpen = false;
         }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
+        }
     })
 
     six.addEventListener("click", ()=>{
@@ -144,6 +319,30 @@ const Game = (() => {
             six.innerHTML = Player2.mark;
             flag-=1;
             sixOpen = false;
+        }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted == false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
         }
     })
 
@@ -157,6 +356,30 @@ const Game = (() => {
             flag-=1;
             sevenOpen = false;
         }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
+        }
     })
 
     eight.addEventListener("click", ()=>{
@@ -168,6 +391,30 @@ const Game = (() => {
             eight.innerHTML = Player2.mark;
             flag-=1;
             eightOpen = false
+        }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
         }
     })
 
@@ -181,6 +428,56 @@ const Game = (() => {
             flag-=1;
             nineOpen = false;
         }
+        Gameboard.updateBoard();
+        let res = Gameboard.checkWin();
+        if(res === true){
+            oneOpen = false;
+            twoOpen = false;
+            threeOpen = false;
+            fourOpen = false;
+            fiveOpen = false;
+            sixOpen = false;
+            sevenOpen = false;
+            eightOpen = false;
+            nineOpen = false;
+            if(flag == 0 && winCounted === false){
+                p2Wins+=1;
+                p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+                winCounted = true;
+            } else if (flag == 1 && winCounted === false){
+                p1Wins+=1;
+                p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+                winCounted = true;
+            }
+
+
+        }
+    })
+
+    const clearBoard = document.getElementById("clearBoard");
+    const clearCounter = document.getElementById("clearCounter");
+    
+    clearBoard.addEventListener("click", () =>{
+        Gameboard.resetBoard(false);
+        oneOpen = true;
+        twoOpen = true;
+        threeOpen = true;
+        fourOpen = true;
+        fiveOpen = true;
+        sixOpen = true;
+        sevenOpen = true;
+        eightOpen = true;
+        nineOpen = true;
+        winCounted = false;
+    })
+
+    clearCounter.addEventListener("click", () =>{
+        p1Wins = 0;
+        p2Wins = 0;
+        p1WinDisplay.innerHTML = "Wins: " + p1Wins;
+        p2WinDisplay.innerHTML = "Wins: " + p2Wins;
+        winCounted = false;
+
     })
 
     
